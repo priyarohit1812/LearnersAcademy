@@ -5,10 +5,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.simplilearn.lms.config.HibConfig;
 import org.simplilearn.lms.entities.Teacher;
 
-public class TeacherDaoImpl implements TeacherDao{
+public class TeacherDaoImpl implements TeacherDao {
 
 	@Override
 	public void insert(Teacher teacher) {
@@ -19,10 +20,11 @@ public class TeacherDaoImpl implements TeacherDao{
 			tx = session.beginTransaction();
 			session.save(teacher);
 			tx.commit();
-			session.close();
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 
@@ -30,9 +32,11 @@ public class TeacherDaoImpl implements TeacherDao{
 	public List<Teacher> getAll() {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
-		org.hibernate.query.Query<Teacher> query = session.createQuery("Select t from org.simplilearn.lms.entities.Teacher t");
+		Query<Teacher> query = session.createQuery("Select t from org.simplilearn.lms.entities.Teacher t",
+				Teacher.class);
+		List<Teacher> allTeachers = query.list();
 		session.close();
-		return query.list();
+		return allTeachers;
 	}
 
 	@Override
@@ -44,10 +48,11 @@ public class TeacherDaoImpl implements TeacherDao{
 			tx = session.beginTransaction();
 			session.delete(teacher);
 			tx.commit();
-			session.close();
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 
@@ -58,13 +63,14 @@ public class TeacherDaoImpl implements TeacherDao{
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.save(teacher);
+			session.merge(teacher);
 			tx.commit();
-			session.close();
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
-		}		
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
@@ -72,6 +78,7 @@ public class TeacherDaoImpl implements TeacherDao{
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
 		Teacher teacher = session.get(Teacher.class, tid);
+		session.close();
 		return teacher;
 	}
 
@@ -79,9 +86,12 @@ public class TeacherDaoImpl implements TeacherDao{
 	public Teacher get(String name) {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
-		org.hibernate.query.Query<Teacher> query = session.createQuery("Select t from org.simplilearn.lms.entities.Teacher t where name=?1");
+		Query<Teacher> query = session.createQuery("Select t from org.simplilearn.lms.entities.Teacher t where name=?1",
+				Teacher.class);
 		query.setParameter(1, name);
-		return query.getSingleResult();
+		Teacher result = query.getSingleResult();
+		session.close();
+		return result;
 	}
 
 }

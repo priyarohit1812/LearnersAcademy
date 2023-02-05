@@ -8,9 +8,9 @@
 </head>
 <body>
 	<form action="./register" method = "post">
-	Username<input type="text" name = "username"><br>
-	password<input type = "password" name = "password"><br>
-	User Type<select name = "userType">
+	Username<input type="text" name = "username" required="required"><br>
+	password<input type = "password" name = "password" required="required"><br>
+	User Type<select name = "userType" required="required">
 		<option value = "admin">Admin</option>
 		<option value = "user">User</option>
 		</select><br>

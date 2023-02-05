@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.simplilearn.lms.config.HibConfig;
 import org.simplilearn.lms.entities.Subject;
 
@@ -19,21 +20,25 @@ public class SubjectDao implements ISubject {
 			tx = session.beginTransaction();
 			session.save(subject);
 			tx.commit();
-			session.close();
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.clear();
+			session.close();
 		}
-		
-		}
+
+	}
 
 	@Override
 	public List<Subject> getAll() {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
-		org.hibernate.query.Query<Subject> query = session.createQuery("Select s from org.simplilearn.lms.entities.Subject s");
+		Query<Subject> query = session
+				.createQuery("Select s from org.simplilearn.lms.entities.Subject s", Subject.class);
+		List<Subject> allSubjects = query.list();
 		session.close();
-		return query.list();
+		return allSubjects;
 	}
 
 	@Override
@@ -58,7 +63,7 @@ public class SubjectDao implements ISubject {
 			tx.rollback();
 			e.printStackTrace();
 		}
-				
+
 	}
 
 	@Override
@@ -74,7 +79,7 @@ public class SubjectDao implements ISubject {
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
-		}		
+		}
 	}
 
 }

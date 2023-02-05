@@ -9,8 +9,8 @@
 <body>
 	<h1>Learning Management System</h1>
 	<form action="./login" method="post">
-	Username<input type = "text" name = "username"><br>
-	Password<input type = "password" name = "password"><br> 
+	Username<input type = "text" name = "username" required="required" value="Priya"><br>
+	Password<input type = "password" name = "password" required="required" value="Priya"><br> 
 	<input type="submit" value="submit">
 	<a href="register.jsp">Register</a>
 	</form>

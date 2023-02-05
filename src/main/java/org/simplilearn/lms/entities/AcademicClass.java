@@ -17,7 +17,7 @@ public class AcademicClass {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cid;
 	private String name;
-	private String duration;
+	private int duration;
 	@ManyToMany(mappedBy = "classes", cascade = CascadeType.ALL)
 	private Set<Subject> subjects = new HashSet<>();
 	@OneToMany(mappedBy = "academicClass", cascade = CascadeType.ALL)
@@ -34,14 +34,14 @@ public class AcademicClass {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDuration() {
+	public int getDuration() {
 		return duration;
 	}
-	public void setDuration(String duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 	public Set<Subject> getSubjects() {
-		return subjects;
+		return this.subjects;
 	}
 	public void setSubjects(Set<Subject> subjects) {
 		this.subjects = subjects;
@@ -57,7 +57,7 @@ public class AcademicClass {
 	
 	public void addSubject(Subject subject)
 	{
-		subjects.add(subject);
+		this.subjects.add(subject);
 	}
 	
 }

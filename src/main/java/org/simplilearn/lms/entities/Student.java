@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int sid;
+	private int stuId;
 	private String name;
 	private String address;
 	private int age;
@@ -20,10 +20,10 @@ public class Student {
 	@JoinColumn(name = "cid")
 	private AcademicClass academicClass;
 	public int getSid() {
-		return sid;
+		return stuId;
 	}
 	public void setSid(int sid) {
-		this.sid = sid;
+		this.stuId = sid;
 	}
 	public String getName() {
 		return name;

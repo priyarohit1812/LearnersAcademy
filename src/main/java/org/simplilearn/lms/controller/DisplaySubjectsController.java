@@ -16,6 +16,10 @@ import org.simplilearn.lms.service.SubjectService;
 
 @WebServlet("/displaySubjects")
 public class DisplaySubjectsController extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ISubjectService iSubjectService = new SubjectService();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

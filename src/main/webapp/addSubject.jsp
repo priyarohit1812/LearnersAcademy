@@ -8,7 +8,7 @@
 </head>
 <body>
 	<form action="./addSub" method = "post">
-	SubjectName<input type="text" name="subject"><br>
+	SubjectName<input type="text" name="subject" required="required"><br>
 	<input type= "submit" name = "submit">
 	
 	</form>

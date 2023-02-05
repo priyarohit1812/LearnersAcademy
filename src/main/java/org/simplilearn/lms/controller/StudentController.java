@@ -21,7 +21,7 @@ public class StudentController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String name = req.getParameter("name");
 		String address = req.getParameter("address");
-		int age =Integer.parseInt(req.getParameter("age"));		
+		int age =Integer.parseInt(req.getParameter("age"));	
 		Student student =new Student();
 		student.setName(name);
 		student.setAddress(address);

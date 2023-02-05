@@ -15,6 +15,10 @@ import org.simplilearn.lms.service.TeacherService;
 
 @WebServlet("/addTeacher")
 public class TeacherController extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ITeacherService iTeacherService = new TeacherService();
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,7 +31,7 @@ public class TeacherController extends HttpServlet {
 		teacher.setAddress(address);
 		teacher.setDesignation(designation);
 		teacher.setSkill(skill);
-		iTeacherService.addTeacher(teacher);
+		iTeacherService.saveTeacher(teacher);
 		req.setAttribute("msg", "Teacher added Successfully");
 		RequestDispatcher rd = req.getRequestDispatcher("home.jsp");
 		rd.forward(req, resp);

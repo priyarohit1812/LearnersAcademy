@@ -8,9 +8,9 @@
 </head>
 <body>
 	<form action="./addStudent" method =post>
-		Name:<input type="text" name="name"><br>
-		Address:<input type = "text" name="address"><br>
-		Age:<input type="number" name="age"><br>
+		Name:<input type="text" name="name" required="required"><br>
+		Address:<input type = "text" name="address" required="required"><br>
+		Age:<input type="number" name="age" required="required"><br>
 		<input type="submit" value="Add Student">
 	</form>
 </body>

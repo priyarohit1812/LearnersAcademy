@@ -5,10 +5,11 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Teacher {
@@ -19,7 +20,7 @@ public class Teacher {
 	private String address;
 	private String designation;
 	private String skill;
-	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "teachers", cascade = CascadeType.ALL)
 	private Set<Subject> subjects = new HashSet<>();
 	
 	
@@ -75,12 +76,11 @@ public class Teacher {
 
 	public void addSubject(Subject subject ) 
 	{
-		subjects.add(subject);
+		this.subjects.add(subject);
 	}
 	
 	public void removeSubject(Subject subject)
 	{
-		subjects.remove(subject);
+		this.subjects.remove(subject);
 	}
-	
 }

@@ -16,9 +16,14 @@ import org.simplilearn.lms.service.UserService;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private IUserService iUserService = new UserService();  
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("text/html");
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		User user = iUserService.get(username, password);

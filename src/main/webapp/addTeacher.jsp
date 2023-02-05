@@ -8,10 +8,10 @@
 </head>
 <body>
 	<form action="./addTeacher" method =post>
-	Name:<input type="text" name="name"><br>
-	Address:<input type = "text" name="address"><br>
-	Designation:<input type="text" name="designation"><br>
-	Skill:<input type="text" name="skill"><br>
+	Name:<input type="text" name="name" required="required"><br>
+	Address:<input type = "text" name="address" required="required"><br>
+	Designation:<input type="text" name="designation" required="required"><br>
+	Skill:<input type="text" name="skill" required="required"><br>
 	<input type="submit" value="Add Teacher">
 	</form>
 </body>
