@@ -1,6 +1,5 @@
 package org.simplilearn.lms.entities;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,9 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Subject {
@@ -18,14 +15,10 @@ public class Subject {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int sid;
 	private String name;
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Teacher_Subject", joinColumns = @JoinColumn(name = "sid"), inverseJoinColumns = @JoinColumn(name = "tid"))
-	private Set<Teacher> teachers = new HashSet<Teacher>();
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Subject_Class", joinColumns = @JoinColumn(name = "sid"), inverseJoinColumns = @JoinColumn(name = "cid"))
-	private Set<AcademicClass> classes = new HashSet<AcademicClass>();
-
+	
+	@OneToMany(mappedBy = "linkPk.subject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<ClassSubjectTeacher> classSubjectTeachers;
+	
 	public int getSid() {
 		return sid;
 	}
@@ -41,31 +34,20 @@ public class Subject {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public void setTeachers(Set<Teacher> teachers) {
-		this.teachers = teachers;
+	
+	public Set<ClassSubjectTeacher> getClassSubjectTeachers() {
+		return classSubjectTeachers;
 	}
 
-	public void setClasses(Set<AcademicClass> classes) {
-		this.classes = classes;
-	}
-
-	public Set<Teacher> getTeachers() {
-		return this.teachers;
-	}
-
-	public Set<AcademicClass> getClasses() {
-		return this.classes;
+	public void setClassSubjectTeachers(Set<ClassSubjectTeacher> classSubjectTeachers) {
+		this.classSubjectTeachers = classSubjectTeachers;
 	}
 
 	// helper method
 
-	public void addClass(AcademicClass academicClass) {
-		this.classes.add(academicClass);
-	}
-
-	public void addTeacher(Teacher teacher) {
-		this.teachers.add(teacher);
+	public void addClassSubjectTeacher(ClassSubjectTeacher classSubjectTeacher)
+	{
+		this.classSubjectTeachers.add(classSubjectTeacher);
 	}
 
 }

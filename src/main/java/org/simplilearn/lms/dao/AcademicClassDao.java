@@ -5,10 +5,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.simplilearn.lms.config.HibConfig;
 import org.simplilearn.lms.entities.AcademicClass;
 
-public class AcademicClassDao implements IAcademicClass {
+public class AcademicClassDao implements IAcademicClassDao {
 	@Override
 	public void insert(AcademicClass academicClass) {
 		SessionFactory factory = HibConfig.getSessionFactory();
@@ -18,20 +19,23 @@ public class AcademicClassDao implements IAcademicClass {
 			tx = session.beginTransaction();
 			session.save(academicClass);
 			tx.commit();
-			
+
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
 		}
-		
-		}
+
+	}
 
 	@Override
 	public List<AcademicClass> getAll() {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
-		org.hibernate.query.Query<AcademicClass> query = session.createQuery("Select a from org.simplilearn.lms.entities.AcademicClass a");
-		return query.list();
+		Query<AcademicClass> query = session
+				.createQuery("SELECT a FROM org.simplilearn.lms.entities.AcademicClass a ORDER BY a.cid", AcademicClass.class);
+		List<AcademicClass> classes = query.list();
+		session.close();
+		return classes;
 	}
 
 	@Override
@@ -42,21 +46,24 @@ public class AcademicClassDao implements IAcademicClass {
 		return academicClass;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public void delete(AcademicClass academicClass) {
+	public void delete(int cid) {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.delete(academicClass);
+			Query deleteQuery = session.createQuery("DELETE FROM org.simplilearn.lms.entities.AcademicClass a WHERE a.cid = :cid");
+			deleteQuery.setParameter("cid", cid);
+			deleteQuery.executeUpdate();
 			tx.commit();
-			
+
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
 		}
-				
+
 	}
 
 	@Override
@@ -66,12 +73,12 @@ public class AcademicClassDao implements IAcademicClass {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.save(academicClass);
+			session.merge(academicClass);
 			tx.commit();
-			
+
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
-		}		
+		}
 	}
 }

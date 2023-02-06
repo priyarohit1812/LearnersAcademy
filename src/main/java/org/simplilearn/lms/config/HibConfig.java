@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.simplilearn.lms.entities.AcademicClass;
+import org.simplilearn.lms.entities.ClassSubjectTeacher;
 import org.simplilearn.lms.entities.Student;
 import org.simplilearn.lms.entities.Subject;
 import org.simplilearn.lms.entities.Teacher;
@@ -29,6 +30,7 @@ public class HibConfig {
 		configuration.addAnnotatedClass(Subject.class);
 		configuration.addAnnotatedClass(AcademicClass.class);
 		configuration.addAnnotatedClass(User.class);
+		configuration.addAnnotatedClass(ClassSubjectTeacher.class);
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 		return sessionFactory;
 		}

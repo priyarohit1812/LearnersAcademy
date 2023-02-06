@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -18,8 +17,9 @@ public class AcademicClass {
 	private int cid;
 	private String name;
 	private int duration;
-	@ManyToMany(mappedBy = "classes", cascade = CascadeType.ALL)
-	private Set<Subject> subjects = new HashSet<>();
+    @OneToMany(mappedBy = "linkPk.academicClass", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<ClassSubjectTeacher> classSubjectTeachers;
+    	
 	@OneToMany(mappedBy = "academicClass", cascade = CascadeType.ALL)
 	private Set<Student> students= new HashSet<>();
 	public int getCid() {
@@ -40,12 +40,6 @@ public class AcademicClass {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	public Set<Subject> getSubjects() {
-		return this.subjects;
-	}
-	public void setSubjects(Set<Subject> subjects) {
-		this.subjects = subjects;
-	}
 	public Set<Student> getStudents() {
 		return students;
 	}
@@ -53,11 +47,19 @@ public class AcademicClass {
 		this.students = students;
 	}
 	
+	public Set<ClassSubjectTeacher> getClassSubjectTeachers() {
+		return classSubjectTeachers;
+	}
+
+	public void setClassSubjectTeachers(Set<ClassSubjectTeacher> classSubjectTeachers) {
+		this.classSubjectTeachers = classSubjectTeachers;
+	}
+	
 	//helper method
 	
-	public void addSubject(Subject subject)
+	public void addClassSubjectTeacher(ClassSubjectTeacher classSubjectTeacher)
 	{
-		this.subjects.add(subject);
+		this.classSubjectTeachers.add(classSubjectTeacher);
 	}
 	
 }

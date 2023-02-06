@@ -36,8 +36,8 @@ public class TeacherMappingController extends HttpServlet {
 //		int sid = (int) session.getAttribute("sid");
 		Teacher teacher = iTeacherService.getTeacher(tid);
 		Subject subject = iSubject.get(sid);
-		teacher.addSubject(subject);
-		subject.addTeacher(teacher);
+//		teacher.addSubject(subject);
+//		subject.addTeacher(teacher);
 		iTeacherService.saveTeacher(teacher);
 		
 		// Redirect to displaySubjects.jsp with success message
@@ -53,7 +53,7 @@ public class TeacherMappingController extends HttpServlet {
 		int sid = (int) Integer.parseInt(req.getParameter("sid"));
 		Subject subject = iSubject.get(sid);
 		List<Teacher> teachers = iTeacherService.getAllTeachers();
-		Set<Teacher> subjectTeacher = subject.getTeachers();
+		Set<Teacher> subjectTeacher = null;
 		if (subjectTeacher.isEmpty()) {
 			req.setAttribute("teachers", teachers);
 		} else {

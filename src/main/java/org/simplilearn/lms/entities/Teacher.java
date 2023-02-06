@@ -1,15 +1,13 @@
 package org.simplilearn.lms.entities;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Teacher {
@@ -20,10 +18,9 @@ public class Teacher {
 	private String address;
 	private String designation;
 	private String skill;
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "teachers", cascade = CascadeType.ALL)
-	private Set<Subject> subjects = new HashSet<>();
-	
-	
+	@OneToMany(mappedBy = "teacher", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<ClassSubjectTeacher> classSubjectTeachers;
+		
 	//Helper method
 	
 	public int getTid() {
@@ -66,21 +63,21 @@ public class Teacher {
 		this.skill = skill;
 	}
 
-	public Set<Subject> getSubjects() {
-		return subjects;
+	public Set<ClassSubjectTeacher> getClassSubjectTeachers() {
+		return classSubjectTeachers;
 	}
 
-	public void setSubjects(Set<Subject> subjects) {
-		this.subjects = subjects;
-	}
-
-	public void addSubject(Subject subject ) 
-	{
-		this.subjects.add(subject);
+	public void setClassSubjectTeachers(Set<ClassSubjectTeacher> classSubjectTeachers) {
+		this.classSubjectTeachers = classSubjectTeachers;
 	}
 	
-	public void removeSubject(Subject subject)
+	public void addClassSubjectTeacher(ClassSubjectTeacher classSubjectTeacher)
 	{
-		this.subjects.remove(subject);
+		this.classSubjectTeachers.add(classSubjectTeacher);
+	}
+	
+	public void removeClassSubjectTeacher(ClassSubjectTeacher classSubjectTeacher)
+	{
+		this.classSubjectTeachers.remove(classSubjectTeacher);
 	}
 }

@@ -8,11 +8,11 @@
 </head>
 <body>
 	<h4>Hi ${sessionScope.user.username}, Welcome to learning Management System</h4>
-	<a href= "addSubject.jsp">Add subject</a>
+	<a href= "./class">Class Master</a>
+	<!-- <a href= "addSubject.jsp">Add subject</a>
 	<a href= "addTeacher.jsp">Add Teacher</a>
-	<a href= "addClass.jsp">Add class</a>
 	<a href= "addStudent.jsp">Add student</a>
-	<a href = "./displaySubjects">Display Subjects</a>
+	<a href = "./displaySubjects">Display Subjects</a> -->
 	<p style="color: blue;">${requestScope.msg}</p>
 </body>
 </html>

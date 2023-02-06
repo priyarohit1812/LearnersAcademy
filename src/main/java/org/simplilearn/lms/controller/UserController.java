@@ -15,6 +15,10 @@ import org.simplilearn.lms.service.UserService;
 
 @WebServlet("/register") 
 public class UserController extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private IUserService userService = new UserService();
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
