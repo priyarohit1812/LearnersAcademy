@@ -9,6 +9,7 @@
 <body>
 	<h4>Hi ${sessionScope.user.username}, Welcome to learning Management System</h4>
 	<a href= "./class">Class Master</a>
+	<a href= "./subject">Subject Master</a>
 	<!-- <a href= "addSubject.jsp">Add subject</a>
 	<a href= "addTeacher.jsp">Add Teacher</a>
 	<a href= "addStudent.jsp">Add student</a>

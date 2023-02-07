@@ -1,7 +1,6 @@
 package org.simplilearn.lms.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,30 +13,37 @@ import org.simplilearn.lms.entities.Subject;
 import org.simplilearn.lms.service.ISubjectService;
 import org.simplilearn.lms.service.SubjectService;
 
-@WebServlet("/subject")
-public class SubjectController extends HttpServlet {
+@WebServlet("/subjectform")
+public class SubjectFormController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private  ISubjectService iSubjectService = new SubjectService();
 	
+	private ISubjectService iSubjectService = new SubjectService();
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String name = req.getParameter("name");
+		int sid =Integer.parseInt(req.getParameter("sid"));
 		
-		int sid =Integer.parseInt(req.getParameter("sid"));		
-		iSubjectService.deleteSubject(sid);
-		req.setAttribute("msg", "Subject deleted successfully");
+		Subject subject = new Subject();
+		subject.setSid(sid);
+		subject.setName(name);
+		iSubjectService.saveSubject(subject);
 		resp.sendRedirect("./subject");
 	}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		List<Subject> subjects = iSubjectService.getAllSubjects();
-		req.setAttribute("subjects", subjects);
-		RequestDispatcher rd = req.getRequestDispatcher("subject.jsp");
+		int sid = Integer.parseInt(req.getParameter("sid"));
+		Subject subject = null;		
+		if (sid>0) {
+			subject = iSubjectService.getSubject(sid);
+		}
+		req.setAttribute("subject", subject);
+		RequestDispatcher rd = req.getRequestDispatcher("subjectform.jsp");
 		rd.forward(req, resp);
 	}
+
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import org.simplilearn.lms.entities.Subject;
 
 public interface ISubjectService {
-	void addSubject(Subject subject);
-	List<Subject> getSubjects(); 
+	void saveSubject(Subject subject);
+	List<Subject> getAllSubjects(); 
+	Subject getSubject(int sid); 
+	void deleteSubject(int sid);
 }

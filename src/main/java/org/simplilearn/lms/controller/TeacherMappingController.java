@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.simplilearn.lms.dao.ISubject;
+import org.simplilearn.lms.dao.ISubjectDao;
 import org.simplilearn.lms.dao.SubjectDao;
 import org.simplilearn.lms.entities.Subject;
 import org.simplilearn.lms.entities.Teacher;
@@ -26,7 +26,7 @@ public class TeacherMappingController extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ITeacherService iTeacherService = new TeacherService();
-	private ISubject iSubject = new SubjectDao();
+	private ISubjectDao iSubject = new SubjectDao();
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

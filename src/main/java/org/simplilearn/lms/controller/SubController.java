@@ -1,7 +1,6 @@
 package org.simplilearn.lms.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,20 +13,17 @@ import org.simplilearn.lms.entities.Subject;
 import org.simplilearn.lms.service.ISubjectService;
 import org.simplilearn.lms.service.SubjectService;
 
-@WebServlet("/displaySubjects")
-public class DisplaySubjectsController extends HttpServlet {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@WebServlet("/addSub")
+public class SubController extends HttpServlet {
 	private ISubjectService iSubjectService = new SubjectService();
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<Subject> subjects = iSubjectService.getAllSubjects();
-		req.setAttribute("subjects", subjects);
-		RequestDispatcher rd = req.getRequestDispatcher("displaySubjects.jsp");
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String subject = req.getParameter("subject");
+		Subject subject2 = new Subject();
+		subject2.setName(subject);
+		iSubjectService.saveSubject(subject2); 
+		req.setAttribute("msg", "Subject added Successfully");
+		RequestDispatcher rd = req.getRequestDispatcher("home.jsp");
 		rd.forward(req, resp);
-		
 	}
-	
 }

@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.simplilearn.lms.entities.Subject;
 
-public interface ISubject {
+public interface ISubjectDao {
 	void insert(Subject subject);
 	List<Subject> getAll();
 	Subject get(int sid);
-	void delete(Subject subject);
+	void delete(int sid);
 	void update(Subject subject);
 }

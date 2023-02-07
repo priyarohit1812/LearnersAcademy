@@ -23,6 +23,8 @@ public class AcademicClassDao implements IAcademicClassDao {
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 
 	}
@@ -43,6 +45,7 @@ public class AcademicClassDao implements IAcademicClassDao {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
 		AcademicClass academicClass = session.get(AcademicClass.class, cid);
+		session.close();
 		return academicClass;
 	}
 
@@ -62,6 +65,8 @@ public class AcademicClassDao implements IAcademicClassDao {
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 
 	}
@@ -79,6 +84,8 @@ public class AcademicClassDao implements IAcademicClassDao {
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 }

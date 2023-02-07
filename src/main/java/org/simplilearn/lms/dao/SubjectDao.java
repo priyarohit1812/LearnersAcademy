@@ -9,7 +9,7 @@ import org.hibernate.query.Query;
 import org.simplilearn.lms.config.HibConfig;
 import org.simplilearn.lms.entities.Subject;
 
-public class SubjectDao implements ISubject {
+public class SubjectDao implements ISubjectDao {
 
 	@Override
 	public void insert(Subject subject) {
@@ -24,7 +24,6 @@ public class SubjectDao implements ISubject {
 			tx.rollback();
 			e.printStackTrace();
 		} finally {
-			session.clear();
 			session.close();
 		}
 
@@ -46,22 +45,27 @@ public class SubjectDao implements ISubject {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
 		Subject subject = session.get(Subject.class, sid);
+		session.close();
 		return subject;
 	}
 
 	@Override
-	public void delete(Subject subject) {
+	public void delete(int sid) {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.delete(subject);
+			@SuppressWarnings("rawtypes")
+			Query deleteQuery = session.createQuery("DELETE FROM org.simplilearn.lms.entities.Subject s WHERE s.sid = :sid");
+			deleteQuery.setParameter("sid", sid);
+			deleteQuery.executeUpdate();
 			tx.commit();
-			session.close();
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 
 	}
@@ -73,12 +77,13 @@ public class SubjectDao implements ISubject {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.save(subject);
+			session.merge(subject);
 			tx.commit();
-			session.close();
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 
