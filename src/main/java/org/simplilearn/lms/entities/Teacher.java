@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +18,7 @@ public class Teacher {
 	private String address;
 	private String designation;
 	private String skill;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "teacher", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(mappedBy = "teacher", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<ClassSubjectTeacher> classSubjectTeachers;
 		
 	//Helper method

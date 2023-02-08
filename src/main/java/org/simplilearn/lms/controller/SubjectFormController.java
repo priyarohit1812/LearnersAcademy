@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.simplilearn.lms.entities.Subject;
 import org.simplilearn.lms.service.ISubjectService;
 import org.simplilearn.lms.service.SubjectService;
+import org.simplilearn.lms.utils.Utilities;
 
 @WebServlet("/subjectform")
 public class SubjectFormController extends HttpServlet {
@@ -31,7 +32,7 @@ public class SubjectFormController extends HttpServlet {
 		subject.setSid(sid);
 		subject.setName(name);
 		iSubjectService.saveSubject(subject);
-		resp.sendRedirect("./subject");
+		Utilities.ShowAlert(req, resp, "subjectform.jsp", "Subject saved successfully", "./subject");
 	}
 	
 	@Override
@@ -41,8 +42,10 @@ public class SubjectFormController extends HttpServlet {
 		if (sid>0) {
 			subject = iSubjectService.getSubject(sid);
 		}
+		
 		req.setAttribute("subject", subject);
 		RequestDispatcher rd = req.getRequestDispatcher("subjectform.jsp");
+		resp.setContentType("text/html");
 		rd.forward(req, resp);
 	}
 

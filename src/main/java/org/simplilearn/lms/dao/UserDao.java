@@ -7,7 +7,7 @@ import org.hibernate.query.Query;
 import org.simplilearn.lms.config.HibConfig;
 import org.simplilearn.lms.entities.User;
 
-public class UserDao implements IUser {
+public class UserDao implements IUserDao {
 
 	@Override
 	public void insert(User user) {
@@ -18,10 +18,12 @@ public class UserDao implements IUser {
 			tx = session.beginTransaction();
 			session.save(user);
 			tx.commit();
-			
+
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 
@@ -29,11 +31,21 @@ public class UserDao implements IUser {
 	public User get(String username, String password) {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
-		Query<User> query = session.createQuery("select u from org.simplilearn.lms.entities.User u where u.username=?1 and u.password=?2");
-		query.setParameter(1, username);
-		query.setParameter(2, password);
+		User user = null;
+		try {
+			Query<User> query = session.createQuery(
+					"select u from org.simplilearn.lms.entities.User u where u.username= :username and u.password=:password",
+					User.class);
+			query.setParameter("username", username);
+			query.setParameter("password", password);
+			user = query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 		
-		return query.getSingleResult();
+		return user;
 	}
 
 	@Override
@@ -45,10 +57,12 @@ public class UserDao implements IUser {
 			tx = session.beginTransaction();
 			session.save(user);
 			tx.commit();
-			
+
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 

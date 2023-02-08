@@ -2,31 +2,36 @@ package org.simplilearn.lms.service;
 
 import java.util.List;
 
+import org.simplilearn.lms.dao.ITeacherDao;
 import org.simplilearn.lms.dao.TeacherDao;
-import org.simplilearn.lms.dao.TeacherDaoImpl;
 import org.simplilearn.lms.entities.Teacher;
 
 public class TeacherService implements ITeacherService {
-	private TeacherDao dao = new TeacherDaoImpl();
+	private ITeacherDao iTeacherDao = new TeacherDao();
 	@Override
 	public void saveTeacher(Teacher teacher) {
 		if (teacher.getTid() > 0) {
-			dao.update(teacher);
+			this.iTeacherDao.update(teacher);
 		} else {
-			dao.insert(teacher);
+			this.iTeacherDao.insert(teacher);
 		}
 	}
 	@Override
 	public Teacher getTeacher(String name) {
-		return dao.get(name);
+		return this.iTeacherDao.get(name);
 	}
 	@Override
 	public List<Teacher> getAllTeachers() {
-		return dao.getAll();
+		return this.iTeacherDao.getAll();
 	}
 	@Override
 	public Teacher getTeacher(int tid) {
-		return dao.get(tid);
+		return this.iTeacherDao.get(tid);
+	}
+	@Override
+	public void deleteTeacher(int tid) {
+		this.iTeacherDao.delete(tid);
+		
 	}
 
 }

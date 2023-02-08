@@ -14,18 +14,17 @@
 	<%
 	List<Subject> subjects = (List<Subject>) request.getAttribute("subjects");
 	List<Teacher> teachers = (List<Teacher>) request.getAttribute("teachers");
+	int cstid = (int) request.getAttribute("cstid");
 	int cid = (int) request.getAttribute("cid");
 	int sid = (int) request.getAttribute("sid");
 	int tid = (int) request.getAttribute("tid");
-	
-	String subDisabled = "";
-	if(sid > 0){
-		subDisabled = "disabled";
-	}
 	%>
+	<a href="classform?cid=<%=cid%>">Back</a>
 	<form action="./classsubteachermap" method="post">
-		<input type="hidden" name="cid" value="<%=cid%>"> Subject
-		Name: <select name="sid" required="required" <%=subDisabled%>>
+		<input type="hidden" name="isDelete" value="false"> <input
+			type="hidden" name="cstid" value="<%=cstid%>"> <input
+			type="hidden" name="cid" value="<%=cid%>"> Subject Name: <select
+			name="sid" required="required">
 			<option value=0></option>
 			<%
 			for (Subject subject : subjects) {

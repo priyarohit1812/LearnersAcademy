@@ -19,10 +19,10 @@ public class Student {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cid")
 	private AcademicClass academicClass;
-	public int getSid() {
+	public int getstuId() {
 		return stuId;
 	}
-	public void setSid(int sid) {
+	public void setstuId(int sid) {
 		this.stuId = sid;
 	}
 	public String getName() {

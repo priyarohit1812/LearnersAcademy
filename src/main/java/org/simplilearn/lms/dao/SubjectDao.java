@@ -2,6 +2,7 @@ package org.simplilearn.lms.dao;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -44,7 +45,8 @@ public class SubjectDao implements ISubjectDao {
 	public Subject get(int sid) {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
-		Subject subject = session.get(Subject.class, sid);
+		Subject subject = session.get(Subject.class, sid);		
+		Hibernate.initialize(subject.getClassSubjectTeachers());
 		session.close();
 		return subject;
 	}

@@ -10,9 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.simplilearn.lms.entities.ClassSubjectTeacher;
 import org.simplilearn.lms.entities.Subject;
+import org.simplilearn.lms.service.ClassSubjectTeacherService;
+import org.simplilearn.lms.service.IClassSubjectTeacherService;
 import org.simplilearn.lms.service.ISubjectService;
 import org.simplilearn.lms.service.SubjectService;
+import org.simplilearn.lms.utils.Utilities;
 
 @WebServlet("/subject")
 public class SubjectController extends HttpServlet {
@@ -22,14 +26,20 @@ public class SubjectController extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private  ISubjectService iSubjectService = new SubjectService();
-	
+	private IClassSubjectTeacherService classSubjectTeacherService = new ClassSubjectTeacherService();
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		int sid =Integer.parseInt(req.getParameter("sid"));		
-		iSubjectService.deleteSubject(sid);
-		req.setAttribute("msg", "Subject deleted successfully");
-		resp.sendRedirect("./subject");
+		int sid =Integer.parseInt(req.getParameter("sid"));
+		Subject subject = iSubjectService.getSubject(sid);
+		if (subject.getClassSubjectTeachers() != null && !subject.getClassSubjectTeachers().isEmpty()) {
+			for (ClassSubjectTeacher classSubjectTeacher : subject.getClassSubjectTeachers()) {
+				classSubjectTeacherService.deleteMapping(classSubjectTeacher.getId());
+			} 
+		}
+		iSubjectService.deleteSubject(sid);		
+		Utilities.ShowAlert(req, resp, "subject.jsp", "Subject deleted successfully", "./subject");
 	}
 	
 	@Override
@@ -39,5 +49,6 @@ public class SubjectController extends HttpServlet {
 		req.setAttribute("subjects", subjects);
 		RequestDispatcher rd = req.getRequestDispatcher("subject.jsp");
 		rd.forward(req, resp);
+		
 	}
 }

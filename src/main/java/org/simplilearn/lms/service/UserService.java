@@ -1,11 +1,11 @@
 package org.simplilearn.lms.service;
 
-import org.simplilearn.lms.dao.IUser;
+import org.simplilearn.lms.dao.IUserDao;
 import org.simplilearn.lms.dao.UserDao;
 import org.simplilearn.lms.entities.User;
 
 public class UserService implements IUserService {
-	IUser dao = new UserDao();
+	IUserDao dao = new UserDao();
 	@Override
 	public void insert(User user) {
 		dao.insert(user);

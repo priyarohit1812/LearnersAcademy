@@ -2,7 +2,6 @@ package org.simplilearn.lms.controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,21 +23,19 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html");
+		HttpSession session = req.getSession();
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		User user = iUserService.get(username, password);
 		if(user!=null && user.getUserType().equals("admin"))
 		{
-			HttpSession session = req.getSession();
 			session.setAttribute("user", user);
-			RequestDispatcher rd = req.getRequestDispatcher("home.jsp");
-			rd.forward(req, resp);
+			resp.sendRedirect("home.jsp");
 					
 		}
 		else {
-			req.setAttribute("msg", "username/password is invalid");
-			RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-			rd.forward(req, resp);
+			session.setAttribute("msg", "username/password is invalid");
+			resp.sendRedirect("./");
 		}
 		
 	}

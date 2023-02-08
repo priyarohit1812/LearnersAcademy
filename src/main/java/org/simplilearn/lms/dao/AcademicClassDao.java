@@ -2,6 +2,7 @@ package org.simplilearn.lms.dao;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -45,6 +46,7 @@ public class AcademicClassDao implements IAcademicClassDao {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
 		AcademicClass academicClass = session.get(AcademicClass.class, cid);
+		Hibernate.initialize(academicClass.getClassSubjectTeachers());
 		session.close();
 		return academicClass;
 	}

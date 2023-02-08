@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +16,7 @@ public class Subject {
 	private int sid;
 	private String name;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "linkPk.subject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(mappedBy = "subject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<ClassSubjectTeacher> classSubjectTeachers;
 	
 	public int getSid() {

@@ -14,14 +14,21 @@ public class ClassSubjectLinkId implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cid")
     private AcademicClass academicClass;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sid")
     private Subject subject;
 
+	@ManyToOne(cascade = CascadeType.ALL)
+//	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "tid")
+    private Teacher teacher;
+	
 	public AcademicClass getAcademicClass() {
 		return academicClass;
 	}
@@ -37,4 +44,12 @@ public class ClassSubjectLinkId implements Serializable {
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}	
 }

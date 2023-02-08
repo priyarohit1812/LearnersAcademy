@@ -9,4 +9,5 @@ public interface ITeacherService {
 	Teacher getTeacher(String name);
 	Teacher getTeacher(int tid);
 	List<Teacher> getAllTeachers();
+	void deleteTeacher(int tid);
 }

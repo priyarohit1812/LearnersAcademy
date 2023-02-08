@@ -23,11 +23,11 @@
 		Set<ClassSubjectTeacher> emptySet = new HashSet<>();
 		aClass = new AcademicClass();
 		aClass.setName("");
-		aClass.setClassSubjectTeachers(emptySet);		
+		aClass.setClassSubjectTeachers(emptySet);
 		action = action.trim() + "?cid=0";
 		mapVisibility = "hidden";
 	} else {
-		action = action.trim() + "?cid=" + aClass.getCid();		
+		action = action.trim() + "?cid=" + aClass.getCid();
 	}
 	Set<ClassSubjectTeacher> subTeachers = aClass.getClassSubjectTeachers();
 	if (subTeachers.isEmpty()) {
@@ -44,9 +44,11 @@
 	</form>
 	<br>
 	<br>
-	<a href="home.jsp">Back</a>
-	<a href="classsubteachermap?cid=<%=aClass.getCid()%>&sid=0&tid=0" style="visibility: <%=mapVisibility%>;">Add
-		Subject Teacher Mapping</a>
+	<a href="./class">Back</a>
+	<a
+		href="classsubteachermap?cid=<%=aClass.getCid()%>&sid=0&tid=0&cstid=0"
+		style="visibility: <%=mapVisibility%>;">Add Subject Teacher
+		Mapping</a>
 	<table border="1" style="visibility: <%=visibility%>;">
 		<tr>
 			<td>Subject</td>
@@ -55,23 +57,20 @@
 			<td>Delete</td>
 		</tr>
 		<%
-		for(ClassSubjectTeacher subTeacher : lstClassSubjectTeachers)
-		{
+		for (ClassSubjectTeacher subTeacher : lstClassSubjectTeachers) {
 		%>
 		<tr>
 			<td><%=subTeacher.getSubject().getName()%></td>
 			<td><%=subTeacher.getTeacher().getName()%></td>
 			<td><a
-				href="classsubteachermap?cid=<%=subTeacher.getAcademicClass().getCid()%>&sid=<%=subTeacher.getSubject().getSid()%>&tid=<%=subTeacher.getTeacher().getTid()%>">Update
+				href="classsubteachermap?cid=<%=subTeacher.getAcademicClass().getCid()%>&sid=<%=subTeacher.getSubject().getSid()%>&tid=<%=subTeacher.getTeacher().getTid()%>&cstid=<%=subTeacher.getId()%>">Update
 					Mapping</a></td>
 			<td>
-				<form action="./deleteclasssubteachermap" method="post">
-					<input type="hidden" name="cid"
+				<form action="./classsubteachermap" method="post">
+					<input type="hidden" name="isDelete" value="true"> <input
+						type="hidden" name="cid"
 						value="<%=subTeacher.getAcademicClass().getCid()%>"> <input
-						type="hidden" name="sid"
-						value="<%=subTeacher.getSubject().getSid()%>"> <input
-						type="hidden" name="tid"
-						value="<%=subTeacher.getTeacher().getTid()%>"> <input
+						type="hidden" name="cstid" value="<%=subTeacher.getId()%>"><input
 						type="submit" value="Delete">
 				</form>
 			</td>

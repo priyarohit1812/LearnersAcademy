@@ -4,44 +4,60 @@
 package org.simplilearn.lms.entities;
 
 import javax.persistence.CascadeType;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 
 @Entity
 public class ClassSubjectTeacher {
-	@EmbeddedId
-	private ClassSubjectLinkId linkPk = new ClassSubjectLinkId();
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "cid")
+    private AcademicClass academicClass;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "sid")
+    private Subject subject;
+
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tid")
-    private Teacher teacher;
+    private Teacher teacher;		
 	
-	@Transient
-    public AcademicClass getAcademicClass() {
-        return getLinkPk().getAcademicClass();
-    }
-
-    @Transient
-    public Subject getSubject() {
-        return getLinkPk().getSubject();
-    }
-
-	public ClassSubjectLinkId getLinkPk() {
-		return linkPk;
+	public int getId() {
+		return id;
 	}
 
-	public void setLinkPk(ClassSubjectLinkId linkPk) {
-		this.linkPk = linkPk;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public AcademicClass getAcademicClass() {
+		return this.academicClass;
+	}
+
+	public void setAcademicClass(AcademicClass academicClass) {
+		this.academicClass = academicClass;
+	}
+
+	public Subject getSubject() {
+		return this.subject;
+	}
+
+	public void setSubject(Subject subject) {
+		this.subject = subject;
 	}
 
 	public Teacher getTeacher() {
-		return teacher;
+		return this.teacher;
 	}
 
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
-	}		
+	}	
 }

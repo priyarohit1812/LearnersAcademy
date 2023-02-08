@@ -8,26 +8,51 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Teacher Master</title>
 </head>
 <body>
 	<%
 	List<Teacher> teachers = (List<Teacher>) request.getAttribute("teachers");
-	int sid = (int) Integer.parseInt(request.getParameter("sid"));
+	String visibility = "visible";
+	if(teachers.isEmpty()){
+		visibility = "hidden";
+	}
 	%>
-	<form action="./mapToTeacher?sid=<%=sid%>" method="post">
-		Name:<select name="tid" required="required">
-		<option value=null></option>
+	<a href="home.jsp">Back</a>
+	<a href="teacherform?tid=0">Add Teachers</a>
+	<table border="1" style="visibility: <%=visibility%>;">
+		<tr>
+			<td>Name</td>
+			<td>Address</td>
+			<td>Designation</td>
+			<td>Skill</td>
+			<td>Update</td>
+			<td>Delete</td>
+		</tr>
+		
 		<%
 		for (Teacher teacher : teachers) {
-		%>
-			<option value=<%= teacher.getTid() %>><%= teacher.getName() %> </option>
+			%>
+			<tr>
+				<td><%=teacher.getName()%></td>
+				<td><%=teacher.getAddress()%></td>
+				<td><%=teacher.getDesignation()%></td>
+				<td><%=teacher.getSkill()%></td>
+				<td><a href="teacherform?tid=<%=teacher.getTid()%>">Update Teacher</a>			
+				</td>
+				<td>
+				<form action="./teacher" method ="post">
+					<input type="hidden" name="tid" value="<%= teacher.getTid()%>">				
+					<input type="submit" value="Delete">
+				</form>
+				</td>
+			</tr>
 			<%
-		}
-		%>
-		</select> <br> <input type="submit" value="Map">
+			}
+			%>
+		</table>	
 
-	</form>
+	
 
 </body>
 </html>

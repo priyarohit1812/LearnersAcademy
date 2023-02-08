@@ -10,7 +10,7 @@ public class AcademicClassService implements IAcademicClassService {
 	private IAcademicClassDao iAcademicClassDao = new AcademicClassDao();
 
 	@Override
-	public void save(AcademicClass academicClass) {
+	public void saveAcademicClass(AcademicClass academicClass) {
 		if (academicClass.getCid() > 0) {
 			this.iAcademicClassDao.update(academicClass);
 		} else {
@@ -19,17 +19,17 @@ public class AcademicClassService implements IAcademicClassService {
 	}
 
 	@Override
-	public AcademicClass get(int cid) {
+	public AcademicClass getAcademicClass(int cid) {
 		return this.iAcademicClassDao.get(cid);
 	}
 
 	@Override
-	public List<AcademicClass> getAll() {
+	public List<AcademicClass> getAllAcademicClasses() {
 		return this.iAcademicClassDao.getAll();
 	}
 
 	@Override
-	public void delete(int cid) {
+	public void deleteAcademicClass(int cid) {
 		this.iAcademicClassDao.delete(cid);		
 	}
 

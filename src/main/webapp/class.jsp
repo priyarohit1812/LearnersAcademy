@@ -11,6 +11,7 @@
 </head>
 <body>
 	<%
+	
 	List<AcademicClass> classes = (List<AcademicClass>) request.getAttribute("classes");
 	String visibility = "visible";
 	if(classes.isEmpty()){

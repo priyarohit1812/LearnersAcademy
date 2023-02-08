@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +17,7 @@ public class AcademicClass {
 	private int cid;
 	private String name;
 	private int duration;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "linkPk.academicClass", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "academicClass", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<ClassSubjectTeacher> classSubjectTeachers;
     	
 	@OneToMany(mappedBy = "academicClass", cascade = CascadeType.ALL)
@@ -60,6 +59,9 @@ public class AcademicClass {
 	
 	public void addClassSubjectTeacher(ClassSubjectTeacher classSubjectTeacher)
 	{
+		if (this.classSubjectTeachers == null) {
+			this.classSubjectTeachers = new HashSet<>();
+		}
 		this.classSubjectTeachers.add(classSubjectTeacher);
 	}
 	

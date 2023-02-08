@@ -5,8 +5,8 @@ import java.util.List;
 import org.simplilearn.lms.entities.AcademicClass;
 
 public interface IAcademicClassService {
-	void save(AcademicClass academicClass); 
-	void delete(int cid); 
-	AcademicClass get(int cid);
-	List<AcademicClass> getAll();
+	void saveAcademicClass(AcademicClass academicClass); 
+	void deleteAcademicClass(int cid); 
+	AcademicClass getAcademicClass(int cid);
+	List<AcademicClass> getAllAcademicClasses();
 }

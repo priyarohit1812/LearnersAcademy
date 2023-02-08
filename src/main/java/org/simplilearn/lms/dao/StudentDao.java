@@ -5,11 +5,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.simplilearn.lms.config.HibConfig;
 import org.simplilearn.lms.entities.Student;
-import org.simplilearn.lms.entities.Subject;
 
-public class StudentDao implements IStudent{
+public class StudentDao implements IStudentDao {
 	@Override
 	public void insert(Student student) {
 		SessionFactory factory = HibConfig.getSessionFactory();
@@ -19,45 +19,55 @@ public class StudentDao implements IStudent{
 			tx = session.beginTransaction();
 			session.save(student);
 			tx.commit();
-			
+
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		
-		}
+
+	}
 
 	@Override
 	public List<Student> getAll() {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
-		org.hibernate.query.Query<Student> query = session.createQuery("Select s from org.simplilearn.lms.entities.Student s");
-		return query.list();
+		Query<Student> query = session.createQuery("Select s from org.simplilearn.lms.entities.Student s",
+				Student.class);
+		List<Student> allStudents = query.list();
+		session.close();
+		return allStudents;
 	}
 
 	@Override
-	public Student get(int sid) {
+	public Student getStudent(int stuId) {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
-		Student student = session.get(Student.class, sid);
+		Student student = session.get(Student.class, stuId);
+		session.close();
 		return student;
 	}
 
 	@Override
-	public void delete(Student student) {
+	public void deleteStudent(int stuId) {
 		SessionFactory factory = HibConfig.getSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.delete(student);
+			@SuppressWarnings("rawtypes")
+			Query deleteQuery = session
+					.createQuery("DELETE FROM org.simplilearn.lms.entities.Student s WHERE s.stuId = :stuId");
+			deleteQuery.setParameter("stuId", stuId);
+			deleteQuery.executeUpdate();
 			tx.commit();
-			
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-				
 	}
 
 	@Override
@@ -67,12 +77,14 @@ public class StudentDao implements IStudent{
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.save(student);
+			session.merge(student);
 			tx.commit();
-			
+
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
-		}		
+		} finally {
+			session.close();
+		}
 	}
 }

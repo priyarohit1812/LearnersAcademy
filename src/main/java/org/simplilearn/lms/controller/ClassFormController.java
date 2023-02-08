@@ -1,7 +1,6 @@
 package org.simplilearn.lms.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.simplilearn.lms.entities.AcademicClass;
 import org.simplilearn.lms.service.AcademicClassService;
 import org.simplilearn.lms.service.IAcademicClassService;
+import org.simplilearn.lms.utils.Utilities;
 @WebServlet("/classform")
 public class ClassFormController extends HttpServlet {
 	/**
@@ -20,6 +20,7 @@ public class ClassFormController extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private IAcademicClassService iAcademicClassService = new AcademicClassService();
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -31,12 +32,9 @@ public class ClassFormController extends HttpServlet {
 		academicClass.setCid(cid);
 		academicClass.setName(name);
 		academicClass.setDuration(duration);
-		iAcademicClassService.save(academicClass);
-		List<AcademicClass> classes = iAcademicClassService.getAll();
-		req.setAttribute("classes", classes);
-		req.setAttribute("msg", "Academic Class saved Successfully");
-		RequestDispatcher rd = req.getRequestDispatcher("class.jsp");
-		rd.forward(req, resp); 		
+		iAcademicClassService.saveAcademicClass(academicClass);
+		
+		Utilities.ShowAlert(req, resp, "classform.jsp", "Academic Class saved successfully", "./class");	
 	}
 	
 	@Override
@@ -44,7 +42,7 @@ public class ClassFormController extends HttpServlet {
 		int cid =Integer.parseInt(req.getParameter("cid"));
 		AcademicClass academicClass = null;
 		if (cid > 0) {
-			academicClass = iAcademicClassService.get(cid);
+			academicClass = iAcademicClassService.getAcademicClass(cid);
 		}
 		req.setAttribute("class", academicClass);
 		RequestDispatcher rd = req.getRequestDispatcher("classform.jsp");
